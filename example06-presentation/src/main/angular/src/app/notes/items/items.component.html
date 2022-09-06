@@ -1,0 +1,35 @@
+
+<div>
+  <div class="alert alert-danger alert-dismissible" *ngIf="this.errorMessage != null">
+    {{errorMessage}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
+  </div>
+  <div class="itemlist">
+    <h3 *ngIf="adminMode">All Tasks:</h3>
+    <h3 *ngIf="!adminMode">Your Tasks:</h3>
+    <ul class="items">
+      <li *ngFor="let item of notes" [class.selected]="item === selectedNote" (click)="onSelect(item); updateRequested = false;">
+        <span class="badge">{{priorities[item.note.priority-1]}}</span> {{item.note.deadline |date: 'dd.MM.YYYY'}}
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="selectedNote" class="itemdetails" >
+
+    <h2> Deadline: {{selectedNote.note.deadline | date: 'dd.MM.YYYY'}}</h2>
+    <div>
+      <p><b>Description: </b>{{selectedNote.note.content}}</p>
+      <p><b>Priority: </b>{{priorities[selectedNote.note.priority-1]}}</p>
+      <p><b>Owner: </b>{{selectedNote.user.firstName}} {{selectedNote.user.lastName}}</p>
+      <p><b>Created_at: </b>{{selectedNote.note.createdOn | date: 'dd.MM.YYYY'}}</p>
+    </div>
+    <div *ngIf="!updateRequested"class="buttons">
+      <button class="btn btn-outline-danger"  (click)="removeItem(selectedNote)">remove</button>
+      <button class="btn  btn-outline-primary"  (click)="requestUpdateItem()">edit</button>
+    </div>
+    <div *ngIf="updateRequested">
+      <wt2-create-note (created)="noteUpdated()" (canceled)="updateRequested = false;" [updateMode]="true"
+      [selectedNote]="selectedNote.note" ></wt2-create-note>
+    </div>
+  </div>
+  </div>
+

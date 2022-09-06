@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-body">
+
+    <div class="alert alert-danger alert-dismissible" *ngIf="errorMessage != null">
+      {{errorMessage}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="errorMessage = null"></button>
+    </div>
+    <div *ngIf="updateMode">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="canceled.emit()"></button>
+    </div>
+
+
+
+    <form (submit)="createNote($event)">
+      <div class="parentSelect">
+        <mat-form-field appearance="fill">
+          <mat-label>Select priority</mat-label>
+          <mat-select  [(ngModel)]="selectedPriority" name="Priority" required>
+            <mat-option *ngFor="let p of  priorities " [value]="p.value"  >
+              {{p.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p>
+          <mat-form-field appearance="fill">
+            <mat-label>Select a Deadline</mat-label>
+            <input id="deadlineInput"
+              placeholder="dd.mm.yyyy" type="date"
+                   [(ngModel)]="deadline" [ngModelOptions]="{standalone: true}"  matInput required>
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Content <span [ngClass]="getCharsLeft() < 0 ? 'text-danger' : 'text-muted'">({{getCharsLeft()}})</span></label>
+        <textarea name="content" class="form-control" required [(ngModel)]="content" placeholder="Enter some content"></textarea>
+      </div>
+
+      <button *ngIf="!updateMode" class="btn w-100 btn-outline-primary" [disabled]="!canCreate">Create Note</button>
+      <button *ngIf="updateMode" class="btn w-100 btn-outline-primary" [disabled]="!canCreate">Update Note</button>
+
+
+    </form>
+
+  </div>
+</div>

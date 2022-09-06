@@ -1,0 +1,15 @@
+
+
+
+<div class="row">
+  <div class="col-4">
+    <h4 class="title">Create Note</h4>
+    <hr>
+    <wt2-create-note (created)="load()" [updateMode]="false"></wt2-create-note>
+  </div>
+  <div class="col-8">
+    <h4 class="title">Your Notes</h4>
+    <hr>
+    <wt2-items (updated) ="load()" [notes]="getNoteWithUser"></wt2-items>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+
+
+<div class="col-8">
+  <div class="alert alert-danger alert-dismissible" *ngIf="this.errorMessage != null">
+    {{errorMessage}}
+  </div>
+  <h4 class="title">All Notes</h4>
+  <hr>
+    <wt2-items id="items" (updated) ="load()" [notes] ="getNoteWithUser" [adminMode]="true"></wt2-items>
+</div>
+
